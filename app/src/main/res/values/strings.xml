@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Quick Circle Watchfaces</string>
+    <string name="action_import">Import</string>
+    <string name="action_delete">Delete</string>
+    <string name="reboot">Reboot now</string>
+    <string name="apply">Apply</string>
+    <string name="later">Reboot later</string>
+    <string name="apply_theme">Apply theme</string>
+
+    <string name="author">Author:</string>
+    <string name="description">Description:</string>
+    <string name="active_theme">Active Theme</string>
+    <string name="no_watchfaces">No Watchfaces installed\nUse the import button to import new watchfaces</string>
+    <string name="err_no_xml">Zip file does not contain a clock.xml</string>
+    <string name="err_invalid_xml">clock.xml is not valid</string>
+    <string name="err_read_error">Error reading file or file is not a zip file</string>
+    <string name="err_missing_file">A replaced file is not present in the zip</string>
+    <string name="err_import">Import error</string>
+</resources>

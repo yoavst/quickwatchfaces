@@ -1,0 +1,53 @@
+<root>
+    <item name='org.joox.selector.AttributeSpecifier.Match CONTAINS'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Selector.Combinator ADJACENT_SIBLING'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Specifier.Type NEGATION'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.AttributeSpecifier.Match EXACT'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.AttributeSpecifier.Match HYPHEN'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.AttributeSpecifier.Match LIST'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Specifier.Type PSEUDO'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.CSS2XPath java.lang.String css2xpath(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.CSS2XPath java.lang.String css2xpath(java.lang.String, boolean) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Scanner Scanner(java.lang.CharSequence) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.AttributeSpecifier.Match PREFIX'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Selector.Combinator GENERAL_SIBLING'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.AttributeSpecifier.Match SUFFIX'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Specifier.Type ATTRIBUTE'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Scanner java.util.List&lt;java.util.List&lt;org.joox.selector.Selector&gt;&gt; scan()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Selector.Combinator CHILD'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.joox.selector.Selector.Combinator DESCENDANT'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>
