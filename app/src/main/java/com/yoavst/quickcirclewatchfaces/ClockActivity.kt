@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.Menu
 import com.chibatching.kotpref.Kotpref
 import com.yoavst.kotlin.async
@@ -46,6 +47,9 @@ public class ClockActivity : AppCompatActivity() {
 
         })
         initUI()
+        toolbar.setNavigationOnClickListener {
+            drawer.openDrawer(Gravity.START)
+        }
         toolbar.setOnMenuItemClickListener {
             when (it.getItemId()) {
                 R.id.action_delete -> {
@@ -90,6 +94,11 @@ public class ClockActivity : AppCompatActivity() {
             apply.hide()
             sendBroadcast(Intent(ClockService.BROADCAST_CLOCK_CHANGED))
         }
+        secondsSwitch.setChecked(!Prefs.forceMinute)
+        secondsSwitch.setOnCheckedChangeListener { compoundButton, b ->
+            Prefs.forceMinute = !b
+            sendBroadcast(Intent(ClockService.BROADCAST_CLOCK_CHANGED))
+        }
     }
 
     fun showPageData(position: Int) {
@@ -114,6 +123,7 @@ public class ClockActivity : AppCompatActivity() {
         if (activeClock == null && clocks.size() > 0) {
             activeClock = clocks[0]
             Prefs.activeClock = activeClock
+            sendBroadcast(Intent(ClockService.BROADCAST_CLOCK_CHANGED))
         }
 
         if (clocks.size() != 0) {
@@ -246,9 +256,9 @@ public class ClockActivity : AppCompatActivity() {
                 writeFile(zipFile, fileEntry, f)
                 setFilePermission(f, "0644")
             }
-            val previewEntry = zipFile.getEntry("preview.png")
+            val previewEntry = zipFile.getEntry("preview.png") ?: zipFile.getEntry("Preview.png")
             if (previewEntry != null) {
-                val f = File(path + previewEntry.getName())
+                val f = File(path + "preview.png")
                 writeFile(zipFile, previewEntry, f)
                 setFilePermission(f, "0644")
             }

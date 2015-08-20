@@ -16,4 +16,6 @@
     <string name="err_read_error">Error reading file or file is not a zip file</string>
     <string name="err_missing_file">A replaced file is not present in the zip</string>
     <string name="err_import">Import error</string>
+
+    <string name="enable_second_support">Enable seconds support</string>
 </resources>

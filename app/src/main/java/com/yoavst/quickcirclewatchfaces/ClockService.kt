@@ -31,6 +31,7 @@ public class ClockService : Service() {
     private var isRunning = false
     private val bitmap = Bitmap.createBitmap(1110, 1110, Bitmap.Config.ARGB_4444)
     private val canvas = Canvas(bitmap)
+    private var shouldUpdateEverySecond: Boolean = true
 
     // timer for the second hand
     val mUpdateTimeHandler: Handler = object : Handler() {
@@ -39,8 +40,9 @@ public class ClockService : Service() {
                 MSG_UPDATE_TIME -> {
                     draw(this@ClockService) // draw clock in every second
                     if (isRunning) {
+                        val rate = if (shouldUpdateEverySecond) UPDATE_RATE_SECOND else UPDATE_RATE_MINUTE
                         val timeMs = System.currentTimeMillis()
-                        val delayMs = INTERACTIVE_UPDATE_RATE_MS - (timeMs % INTERACTIVE_UPDATE_RATE_MS)
+                        val delayMs = rate - (timeMs % rate)
                         mUpdateTimeHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, delayMs)
                     }
                 }
@@ -107,11 +109,13 @@ public class ClockService : Service() {
         canvas.restore()
 
         // second
-        canvas.save()
-        canvas.rotate(second_degree, 555f, 555f)
-        secondHand!!.setBounds(507, 0, 603, 1110)
-        secondHand!!.draw(canvas)
-        canvas.restore()
+        if (shouldUpdateEverySecond) {
+            canvas.save()
+            canvas.rotate(second_degree, 555f, 555f)
+            secondHand!!.setBounds(507, 0, 603, 1110)
+            secondHand!!.draw(canvas)
+            canvas.restore()
+        }
 
         views.setImageViewBitmap(R.id.hands, bitmap)
 
@@ -139,30 +143,45 @@ public class ClockService : Service() {
 
     }
 
+    private fun findFile(name: String): String? {
+        val files = clock!!.files
+        if ("b2_quickcircle_analog_style01_" + name + ".png" in files) {
+            return "b2_quickcircle_analog_style01_" + name + ".png"
+        } else if ("b2_quickcircle_analog_style02_" + name + ".png" in files) {
+            return "b2_quickcircle_analog_style02_" + name + ".png"
+        } else if ("b2_quickcircle_analog_style03_" + name + ".png" in files) {
+            return "b2_quickcircle_analog_style03_" + name + ".png"
+        } else if (name + ".png" in files) {
+            return name + ".png"
+        }
+        return null
+    }
+
     private fun setDefaultClock(views: RemoteViews): Boolean {
         var result = false
-        val files = clock!!.files
         // get drawables for hands and draw background
         try {
             if (hourHand == null) {
                 // hour
-                hourHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + files[0])
+                hourHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + findFile("hour"))
                 hourHand!!.setTargetDensity(640)
             }
             if (minuteHand == null) {
                 // minute
-                minuteHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + files[1])
+                minuteHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + findFile("minute"))
                 minuteHand!!.setTargetDensity(640)
             }
             if (secondHand == null) {
                 // second
-                secondHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + files[2])
+                secondHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + findFile("second"))
                 secondHand!!.setTargetDensity(640)
             }
 
             //background
             if (background == null)
-                background = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + files[3]).getBitmap()
+                background = BitmapFactory.decodeFile("/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + (findFile("bg") ?: findFile("background")))
+
+            shouldUpdateEverySecond = secondHand == null || !Prefs.forceMinute
             result = true
         } catch (e: NullPointerException) {
             e.printStackTrace()
@@ -238,7 +257,7 @@ public class ClockService : Service() {
             minuteHand = null
             secondHand = null
             background = null
-            if (clock != null) {
+            if (clock != null || shouldUpdateEverySecond != !Prefs.forceMinute) {
                 clock = Prefs.activeClock
                 updateTimer()
             } else clock = Prefs.activeClock
@@ -246,7 +265,9 @@ public class ClockService : Service() {
     }
 
     companion object {
-        private val INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1)
+        private val UPDATE_RATE_SECOND = TimeUnit.SECONDS.toMillis(1)
+        private val UPDATE_RATE_MINUTE = TimeUnit.MINUTES.toMillis(1)
+
         public val BROADCAST_CLOCK_CHANGED: String = "broadcast_clock_changed"
     }
 }

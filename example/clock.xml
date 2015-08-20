@@ -5,9 +5,9 @@
 	<author>Kevin Slaton</author>
 	<description>A watchface by Kevin Slaton</description>
 	<replaces>
-		<file>b2_quickcircle_analog_style02_hour.png</file>
-		<file>b2_quickcircle_analog_style02_minute.png</file>
-		<file>b2_quickcircle_analog_style02_second.png</file>
-		<file>b2_quickcircle_analog_style02_bg.png</file>
+		<file>hour.png</file>
+		<file>minute.png</file>
+		<file>second.png</file>
+		<file>bg.png</file>
 	</replaces>
 </clock>

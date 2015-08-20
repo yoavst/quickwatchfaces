@@ -14,7 +14,7 @@ public object Prefs : KotprefModel() {
             kotprefPreference.putStringSet("clocks", value)
         }
     var activeClockData by stringPrefVar("")
-    var supportSeconds by booleanPrefVar(true)
+    var forceMinute by booleanPrefVar(false)
 
     var activeClock: Clock?
         get() {
