@@ -13,8 +13,12 @@ public object Prefs : KotprefModel() {
         set(value) {
             kotprefPreference.putStringSet("clocks", value)
         }
+
     var activeClockData by stringPrefVar("")
     var forceMinute by booleanPrefVar(false)
+    var forceHideDate by booleanPrefVar(false)
+    var forceDateGravity by stringPrefVar("")
+
 
     var activeClock: Clock?
         get() {

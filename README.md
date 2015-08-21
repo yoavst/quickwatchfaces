@@ -39,6 +39,12 @@ Once you've got your modified files, you need to package them for the app.
       <dateBackgroundColor>#RRGGBB or #AARRGGBB</dateBackgroundColor>
       <!-- Optional - hide the date - Default show date -->
       <hideDateText>true or false</hideDateText>
+      <!-- Optional - SimpleDateFormat for the date - Default EEE d (E.G: Fri 21)-->
+      <dateFormat>MMM d</dateFormat>
+      <!-- Optional - gravity for date - Default right -->
+      <dateGravity>left or right or top or bottom</dateGravity>
+      <!-- Optional - text size for date - Default 16 (all units are in sp)-->
+      <dateTextSize>18</dateTextSize>
       <replaces>
 		  <!--List all files, you want to replace-->
           <file>b2_quickcircle_analog_style03_hour.png</file>

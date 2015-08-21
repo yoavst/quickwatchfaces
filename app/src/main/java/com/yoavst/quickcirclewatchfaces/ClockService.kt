@@ -9,10 +9,13 @@ import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
+import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
 import com.chibatching.kotpref.Kotpref
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -25,6 +28,7 @@ public class ClockService : Service() {
     private var minuteHand: Drawable? = null
     private var secondHand: Drawable? = null
     private var background: Bitmap? = null
+    private var dateFormatter: SimpleDateFormat? = null
     private var hour_degree: Float = 0.toFloat()
     private var min_degree: Float = 0.toFloat()
     private var second_degree: Float = 0.toFloat()
@@ -174,30 +178,55 @@ public class ClockService : Service() {
                 }
                 if (background == null)
                     background = BitmapFactory.decodeFile("/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + id + "/" + (findFile("bg") ?: findFile("background")))
-
+                if (dateFormatter == null) {
+                    dateFormatter = SimpleDateFormat(clock!!.dateFormat)
+                }
                 // set day & date
-                if (!clock!!.hideDateText) {
-                    // views.setViewPadding(R.id.additional_text, mXPos, mYPos, 0, 0);
-                    val calendar = Calendar.getInstance()
-
-                    views.setTextViewText(R.id.additional_text, calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH) + " " + calendar.get(Calendar.DATE))
-
-                    views.setTextColor(R.id.additional_text, clock!!.dateTextColor)
-                    views.setInt(R.id.additional_text, "setBackgroundColor", clock!!.dateBackgroundColor)
-                    views.setViewVisibility(R.id.additional_text, View.VISIBLE)
-                } else views.setViewVisibility(R.id.additional_text, View.GONE)
+                if (!clock!!.hideDateText && !Prefs.forceHideDate) {
+                    var gravity = Prefs.forceDateGravity
+                    if (gravity.isEmpty()) gravity = clock!!.dateGravity
+                    val textViewId = getId(gravity)
+                    hideAllTextViews(views)
+                    views.setTextViewText(textViewId, dateFormatter!!.format(Date()))
+                    views.setTextColor(textViewId, clock!!.dateTextColor)
+                    views.setTextViewTextSize(textViewId, TypedValue.COMPLEX_UNIT_SP, clock!!.dateTextSize)
+                    views.setInt(textViewId, "setBackgroundColor", clock!!.dateBackgroundColor)
+                    views.setViewVisibility(textViewId, View.VISIBLE)
+                } else hideAllTextViews(views)
             } else {
                 // set default clock
                 hourHand = getDrawable(R.drawable.hour)
                 minuteHand = getDrawable(R.drawable.minute)
                 secondHand = getDrawable(R.drawable.second)
                 background = (getDrawable(R.drawable.background) as BitmapDrawable).getBitmap()
+                hideAllTextViews(views)
+                views.setTextColor(R.id.additional_text_bottom, Color.BLACK)
+                views.setInt(R.id.additional_text_bottom, "setBackgroundColor", Color.TRANSPARENT)
+                val calendar = Calendar.getInstance()
+                views.setTextViewText(R.id.additional_text_bottom, calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH) + " " + calendar.get(Calendar.DATE))
+                views.setViewVisibility(R.id.additional_text_bottom, View.VISIBLE)
             }
             shouldUpdateEverySecond = secondHand == null || !Prefs.forceMinute
             return true
         } catch(e: Exception) {
             e.printStackTrace()
             return false
+        }
+    }
+
+    fun hideAllTextViews(views: RemoteViews) {
+        views.setViewVisibility(R.id.additional_text_right, View.GONE)
+        views.setViewVisibility(R.id.additional_text_left, View.GONE)
+        views.setViewVisibility(R.id.additional_text_top, View.GONE)
+        views.setViewVisibility(R.id.additional_text_bottom, View.GONE)
+    }
+
+    fun getId(gravity: String): Int {
+        return when (gravity) {
+            "left" -> R.id.additional_text_left
+            "top" -> R.id.additional_text_top
+            "bottom" -> R.id.additional_text_bottom
+            else -> R.id.additional_text_right
         }
     }
 

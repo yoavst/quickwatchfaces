@@ -18,4 +18,14 @@
     <string name="err_import">Import error</string>
 
     <string name="enable_second_support">Enable seconds support</string>
+    <string name="enable_date_support">Enable date support</string>
+    <string name="force_watchface_date_gravity">Force the watchface\'s date gravity</string>
+
+    <string-array name="gravities">
+        <item>default</item>
+        <item>right</item>
+        <item>left</item>
+        <item>top</item>
+        <item>bottom</item>
+    </string-array>
 </resources>

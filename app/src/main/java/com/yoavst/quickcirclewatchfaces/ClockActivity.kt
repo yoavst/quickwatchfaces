@@ -8,14 +8,14 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.Menu
+import android.view.View
+import android.widget.AdapterView
 import com.chibatching.kotpref.Kotpref
-import com.yoavst.kotlin.async
-import com.yoavst.kotlin.hide
-import com.yoavst.kotlin.longToast
-import com.yoavst.kotlin.show
+import com.yoavst.kotlin.*
 import kotlinx.android.synthetic.clock_activity.*
 import java.io.*
-import java.util.*
+import java.util.ArrayList
+import java.util.HashSet
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import kotlin.properties.Delegates
@@ -25,6 +25,8 @@ public class ClockActivity : AppCompatActivity() {
     var activeClock: Clock? = null
     var currentClock: Clock? = null
     var dialog: ProgressDialog? = null
+    val gravities by stringArrayResource(R.array.gravities)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.clock_activity)
@@ -99,6 +101,29 @@ public class ClockActivity : AppCompatActivity() {
             Prefs.forceMinute = !b
             sendBroadcast(Intent(ClockService.BROADCAST_CLOCK_CHANGED))
         }
+        dateSwitch.setChecked(!Prefs.forceHideDate)
+        dateSwitch.setOnCheckedChangeListener { compoundButton, b ->
+            Prefs.forceHideDate = !b
+            sendBroadcast(Intent(ClockService.BROADCAST_CLOCK_CHANGED))
+        }
+        val forced = Prefs.forceDateGravity
+        when (forced) {
+            "right" -> gravitySpinner.setSelection(1)
+            "left" -> gravitySpinner.setSelection(2)
+            "top" -> gravitySpinner.setSelection(3)
+            "bottom" -> gravitySpinner.setSelection(4)
+            else -> gravitySpinner.setSelection(0)
+        }
+        gravitySpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if (position == 0) Prefs.forceDateGravity = ""
+                else Prefs.forceDateGravity = gravities[position]
+            }
+
+        })
     }
 
     fun showPageData(position: Int) {

@@ -15,7 +15,9 @@ import java.nio.charset.StandardCharsets
 <dateTextColor>#RRGGBB or #AARRGGBB</dateTextColor>
 <dateBackgroundColor>#RRGGBB or #AARRGGBB</dateBackgroundColor>
 <hideDateText>true or false</hideDateText>
-<position>
+<dateFormat>MMM d</dateFormat>
+<dateGravity>left or right or top or bottom</dateGravity>
+<dateTextSize>18.5</dateTextSize>
 <replaces>
 <file>b2_quickcircle_analog_style02_hour.png</file>
 <file>b2_quickcircle_analog_style02_minute.png</file>
@@ -25,13 +27,27 @@ import java.nio.charset.StandardCharsets
 </clock>
  **/
 public class Clock(public var title: String, public var id: String, public var author: String, public var description: String, public var hideDateText: Boolean,
-                   public var dateTextColor: Int, public var dateBackgroundColor: Int, public var files: Array<String>) {
+                   public var dateTextColor: Int, public var dateBackgroundColor: Int, public var dateFormat: String, public var dateGravity: String,
+                   public var dateTextSize: Float, public var files: Array<String>) {
 
-    public constructor() : this("", "", "", "", false, Color.WHITE, Color.GRAY, emptyArray())
+    public constructor() : this("", "", "", "", false, Color.WHITE, Color.GRAY, "", "", 0.0f, emptyArray())
 
     public override fun toString(): String {
         val sb = StringBuilder()
-        sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<clock>\n\t<title>$title</title>\n\t<id>$id</id>\n\t<author>$author</author>\n\t<description>$description</description>\n\t<dateTextColor>$dateTextColor</dateTextColor><dateBackgroundColor>$dateBackgroundColor</dateBackgroundColor><hideDateText>${if (hideDateText) "true" else "false"}</hideDateText>\n\t<replaces>\n")
+        sb
+                .append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
+                .append(" <clock>\n\t")
+                .append("<title>$title</title>\n\t")
+                .append("<id>$id</id>\n\t")
+                .append("<author>$author</author>\n\t")
+                .append("<description>$description</description>\n\t")
+                .append("<dateTextColor>$dateTextColor</dateTextColor>\n\t")
+                .append("<dateBackgroundColor>$dateBackgroundColor</dateBackgroundColor>\n\t")
+                .append("<hideDateText>${if (hideDateText) "true" else "false"}</hideDateText>\n\t")
+                .append("<dateFormat>$dateFormat</dateFormat>\n\t")
+                .append("<dateGravity>$dateGravity</dateGravity>\n\t")
+                .append("<dateTextSize>$dateTextSize</dateTextSize>\n\t")
+                .append("<replaces>\n")
         for (file in files)
             sb.append("\t\t<file>$file</file>\n")
         sb.append("\t</replaces>\n</clock>")
@@ -49,10 +65,13 @@ public class Clock(public var title: String, public var id: String, public var a
             clock.hideDateText = document.find("hideDateText").text() == "false"
             val dayTextColor = document.find("dateTextColor").text()
             if (dayTextColor != null)
-            clock.dateTextColor = Color.parseColor(dayTextColor)
+                clock.dateTextColor = Color.parseColor(dayTextColor)
             val dayBackgroundColor = document.find("dateBackgroundColor").text()
             if (dayTextColor != null)
-            clock.dateBackgroundColor = Color.parseColor(dayBackgroundColor)
+                clock.dateBackgroundColor = Color.parseColor(dayBackgroundColor)
+            clock.dateFormat = document.find("dateFormat").text() ?: "EEE d"
+            clock.dateGravity = document.find("dateGravity").text() ?: "right"
+            clock.dateTextSize = document.find("dateTextSize").text()?.toFloat() ?: 16.0f
             clock.files = (JOOX.`$`(document.find("replaces")).find("file") map { it.getTextContent() }).toTypedArray()
             return clock
         }
