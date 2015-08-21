@@ -62,13 +62,19 @@ public class Clock(public var title: String, public var id: String, public var a
             clock.id = document.find("id").text()
             clock.author = document.find("author").text()
             clock.description = document.find("description").text()
-            clock.hideDateText = document.find("hideDateText").text() == "false"
-            val dayTextColor = document.find("dateTextColor").text()
-            if (dayTextColor != null)
-                clock.dateTextColor = Color.parseColor(dayTextColor)
-            val dayBackgroundColor = document.find("dateBackgroundColor").text()
-            if (dayTextColor != null)
-                clock.dateBackgroundColor = Color.parseColor(dayBackgroundColor)
+            clock.hideDateText = document.find("hideDateText").text() == "true"
+            val dateTextColor = document.find("dateTextColor").text()
+            if (!dateTextColor.isNullOrEmpty()) {
+                try {
+                    clock.dateTextColor = Color.parseColor(dateTextColor)
+                } catch(e: Exception) { clock.dateTextColor = dateTextColor.toInt()}
+            }
+            val dateBackgroundColor = document.find("dateBackgroundColor").text()
+            if (!dateBackgroundColor.isNullOrEmpty()) {
+                try {
+                    clock.dateBackgroundColor = Color.parseColor(dateBackgroundColor)
+                } catch(e: Exception) { clock.dateBackgroundColor = dateBackgroundColor.toInt()}
+            }
             clock.dateFormat = document.find("dateFormat").text() ?: "EEE d"
             clock.dateGravity = document.find("dateGravity").text() ?: "right"
             clock.dateTextSize = document.find("dateTextSize").text()?.toFloat() ?: 16.0f
