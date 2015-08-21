@@ -5,13 +5,13 @@ import android.appwidget.AppWidgetManager
 import android.content.*
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
 import android.view.View
 import android.widget.RemoteViews
 import com.chibatching.kotpref.Kotpref
-import com.yoavst.kotlin.e
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -21,9 +21,9 @@ import java.util.concurrent.TimeUnit
  */
 public class ClockService : Service() {
     val MSG_UPDATE_TIME = 0
-    private var hourHand: BitmapDrawable? = null
-    private var minuteHand: BitmapDrawable? = null
-    private var secondHand: BitmapDrawable? = null
+    private var hourHand: Drawable? = null
+    private var minuteHand: Drawable? = null
+    private var secondHand: Drawable? = null
     private var background: Bitmap? = null
     private var hour_degree: Float = 0.toFloat()
     private var min_degree: Float = 0.toFloat()
@@ -55,12 +55,10 @@ public class ClockService : Service() {
         // get extras
         Kotpref.init(getApplicationContext())
         clock = Prefs.activeClock
-        if (clock != null) {
-            isRunning = true
-            updateTimer()
-            // register screen status receiver
-            setScreenOnOffReceiver(true)
-        }
+        isRunning = true
+        updateTimer()
+        // register screen status receiver
+        setScreenOnOffReceiver(true)
         setClockChangedReceiver(true)
         setQuickCircleStateReceiver(true)
 
@@ -161,55 +159,49 @@ public class ClockService : Service() {
     }
 
     private fun setDefaultClock(views: RemoteViews): Boolean {
-        var result = false
-        // get drawables for hands and draw background
         try {
-            if (hourHand == null) {
-                // hour
-                hourHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + findFile("hour"))
-                hourHand!!.setTargetDensity(640)
-            }
-            if (minuteHand == null) {
-                // minute
-                minuteHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + findFile("minute"))
-                minuteHand!!.setTargetDensity(640)
-            }
-            if (secondHand == null) {
-                // second
-                secondHand = BitmapDrawable(getResources(), "/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + findFile("second"))
-                secondHand!!.setTargetDensity(640)
-            }
+            if (clock != null) {
+                val id = clock!!.id
+                val packageName = getPackageName()
+                if (hourHand == null) {
+                    hourHand = BitmapDrawable(getResources(), "/data/data/$packageName/files/$id/${findFile("hour")}")
+                }
+                if (minuteHand == null) {
+                    minuteHand = BitmapDrawable(getResources(), "/data/data/$packageName/files/$id/${findFile("minute")}")
+                }
+                if (secondHand == null) {
+                    secondHand = BitmapDrawable(getResources(), "/data/data/$packageName/files/$id/${findFile("second")}")
+                }
+                if (background == null)
+                    background = BitmapFactory.decodeFile("/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + id + "/" + (findFile("bg") ?: findFile("background")))
 
-            //background
-            if (background == null)
-                background = BitmapFactory.decodeFile("/data/data/" + "com.yoavst.quickcirclewatchfaces" + "/files/" + clock!!.id + "/" + (findFile("bg") ?: findFile("background")))
+                // set day & date
+                if (!clock!!.hideDateText) {
+                    // views.setViewPadding(R.id.additional_text, mXPos, mYPos, 0, 0);
+                    val calendar = Calendar.getInstance()
 
+                    views.setTextViewText(R.id.additional_text, calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH) + " " + calendar.get(Calendar.DATE))
+
+                    views.setTextColor(R.id.additional_text, clock!!.dateTextColor)
+                    views.setInt(R.id.additional_text, "setBackgroundColor", clock!!.dateBackgroundColor)
+                    views.setViewVisibility(R.id.additional_text, View.VISIBLE)
+                } else views.setViewVisibility(R.id.additional_text, View.GONE)
+            } else {
+                // set default clock
+                hourHand = getDrawable(R.drawable.hour)
+                minuteHand = getDrawable(R.drawable.minute)
+                secondHand = getDrawable(R.drawable.second)
+                background = (getDrawable(R.drawable.background) as BitmapDrawable).getBitmap()
+            }
             shouldUpdateEverySecond = secondHand == null || !Prefs.forceMinute
-            result = true
-        } catch (e: NullPointerException) {
+            return true
+        } catch(e: Exception) {
             e.printStackTrace()
-        } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
+            return false
         }
-
-
-        // set day & date
-        if (!clock!!.hideHourText && result) {
-            // views.setViewPadding(R.id.additional_text, mXPos, mYPos, 0, 0);
-            val calendar = Calendar.getInstance()
-
-            views.setTextViewText(R.id.additional_text, calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH) + " " + calendar.get(Calendar.DATE))
-
-            views.setTextColor(R.id.additional_text, clock!!.dayTextColor)
-            views.setInt(R.id.additional_text, "setBackgroundColor", clock!!.dayBackgroundColor)
-            views.setViewVisibility(R.id.additional_text, View.VISIBLE)
-        } else views.setViewVisibility(R.id.additional_text, View.GONE)
-        return result
     }
 
     private fun setScreenOnOffReceiver(on: Boolean) {
-        // create a receiver for handling screen on/off
-
         val filter = IntentFilter()
         filter.addAction(Intent.ACTION_SCREEN_OFF)
         filter.addAction(Intent.ACTION_SCREEN_ON)
@@ -229,19 +221,15 @@ public class ClockService : Service() {
             if (Intent.ACTION_SCREEN_OFF == intent.getAction()) {
                 // stop updating when screen is off
                 isRunning = false
-                // Log.d("test", "ACTION_SCREEN_OFF");
             } else if (Intent.ACTION_SCREEN_ON == intent.getAction()) {
                 // start updating when screen is on
                 isRunning = true
                 updateTimer()
-                // Log.d("test", "ACTION_SCREEN_ON");
             }
         }
     }
 
     private fun setClockChangedReceiver(on: Boolean) {
-        // create a receiver for handling screen on/off
-
         val filter = IntentFilter(BROADCAST_CLOCK_CHANGED)
         if (on)
             this.getApplicationContext().registerReceiver(clockChangeReceiver, filter)
@@ -268,8 +256,6 @@ public class ClockService : Service() {
     }
 
     private fun setQuickCircleStateReceiver(on: Boolean) {
-        // create a receiver for handling screen on/off
-
         val filter = IntentFilter(ACTION_ACCESSORY_COVER_EVENT)
         if (on)
             this.getApplicationContext().registerReceiver(quickCircleStateReceiver, filter)
@@ -307,6 +293,5 @@ public class ClockService : Service() {
         private val ACTION_ACCESSORY_COVER_EVENT = "com.lge.android.intent.action.ACCESSORY_COVER_EVENT"
         private val EXTRA_ACCESSORY_COVER_OPENED = 0
         private val EXTRA_ACCESSORY_COVER_CLOSED = 1
-
     }
 }

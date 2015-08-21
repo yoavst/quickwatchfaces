@@ -33,12 +33,12 @@ Once you've got your modified files, you need to package them for the app.
       <author>CoolGuy42</author>
       <!--Description of the clock-->
       <description>Some description</description>
-      <!-- Optional - the color of the day text - Default BLACK -->
-      <dayTextColor>#RRGGBB or #AARRGGBB</dayTextColor>
-      <!-- Optional - the background color of the day text - Default GRAY -->
-      <dayBackgroundColor>#RRGGBB or #AARRGGBB</dayBackgroundColor>
+      <!-- Optional - the color of the date text - Default BLACK -->
+      <dateTextColor>#RRGGBB or #AARRGGBB</dateTextColor>
+      <!-- Optional - the background color of the date text - Default GRAY -->
+      <dateBackgroundColor>#RRGGBB or #AARRGGBB</dateBackgroundColor>
       <!-- Optional - hide the date - Default show date -->
-      <hideHourText>true or false</hideHourText>
+      <hideDateText>true or false</hideDateText>
       <replaces>
 		  <!--List all files, you want to replace-->
           <file>b2_quickcircle_analog_style03_hour.png</file>

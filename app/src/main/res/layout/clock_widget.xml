@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:tools="http://schemas.android.com/tools">
+                tools:layout_width="261dp"
+                tools:layout_height="261dp"
+                android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/dial"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:background="@drawable/background"
         tools:ignore="ContentDescription"/>
 
     <TextView
@@ -17,14 +20,12 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="50dp"
-        android:background="#333333"
         android:gravity="center_vertical"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
-        tools:text="test"
-        android:textColor="#ffffff"
         android:textSize="16sp"
-        android:visibility="gone"/>
+        tools:text="test"
+        tools:textColor="@android:color/black"/>
 
     <ImageView
         android:id="@+id/hands"
