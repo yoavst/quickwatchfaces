@@ -11,6 +11,7 @@ import android.os.Message
 import android.view.View
 import android.widget.RemoteViews
 import com.chibatching.kotpref.Kotpref
+import com.yoavst.kotlin.e
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -61,6 +62,7 @@ public class ClockService : Service() {
             setScreenOnOffReceiver(true)
         }
         setClockChangedReceiver(true)
+        setQuickCircleStateReceiver(true)
 
         return super.onStartCommand(intent, flags, startId)
     }
@@ -73,6 +75,7 @@ public class ClockService : Service() {
         // unregister screen status receiver
         setScreenOnOffReceiver(false)
         setClockChangedReceiver(false)
+        setQuickCircleStateReceiver(false)
     }
 
     private fun draw(context: Context): RemoteViews {
@@ -264,10 +267,46 @@ public class ClockService : Service() {
         }
     }
 
+    private fun setQuickCircleStateReceiver(on: Boolean) {
+        // create a receiver for handling screen on/off
+
+        val filter = IntentFilter(ACTION_ACCESSORY_COVER_EVENT)
+        if (on)
+            this.getApplicationContext().registerReceiver(quickCircleStateReceiver, filter)
+        else
+            try {
+                this.getApplicationContext().unregisterReceiver(quickCircleStateReceiver)
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace()
+            }
+    }
+
+
+    val quickCircleStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            val quickCoverState = intent?.getIntExtra(EXTRA_ACCESSORY_COVER_STATE,
+                    EXTRA_ACCESSORY_COVER_OPENED) ?: EXTRA_ACCESSORY_COVER_OPENED
+            if (quickCoverState == EXTRA_ACCESSORY_COVER_CLOSED) {
+                // Let's do call stuff!
+                isRunning = true
+                updateTimer()
+            } else {
+                // stop doing cool stuff.
+                isRunning = false
+            }
+        }
+    }
+
     companion object {
         private val UPDATE_RATE_SECOND = TimeUnit.SECONDS.toMillis(1)
         private val UPDATE_RATE_MINUTE = TimeUnit.MINUTES.toMillis(1)
 
         public val BROADCAST_CLOCK_CHANGED: String = "broadcast_clock_changed"
+
+        private val EXTRA_ACCESSORY_COVER_STATE = "com.lge.intent.extra.ACCESSORY_COVER_STATE"
+        private val ACTION_ACCESSORY_COVER_EVENT = "com.lge.android.intent.action.ACCESSORY_COVER_EVENT"
+        private val EXTRA_ACCESSORY_COVER_OPENED = 0
+        private val EXTRA_ACCESSORY_COVER_CLOSED = 1
+
     }
 }
