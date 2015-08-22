@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quick Circle Watchfaces</string>
+    <string name="app_name">Quick Watchfaces</string>
     <string name="action_import">Import</string>
     <string name="action_delete">Delete</string>
     <string name="reboot">Reboot now</string>
@@ -20,6 +20,8 @@
     <string name="enable_second_support">Enable seconds support</string>
     <string name="enable_date_support">Enable date support</string>
     <string name="force_watchface_date_gravity">Force the watchface\'s date gravity</string>
+    <string name="settings">Settings</string>
+    <string name="download">Download more</string>
 
     <string-array name="gravities">
         <item>default</item>

@@ -23,7 +23,7 @@
                 android:background="?android:colorPrimary"
                 android:gravity="bottom"
                 android:minHeight="?android:attr/actionBarSize"
-                android:paddingBottom="16dp"
+                app:titleMarginBottom="16dp"
                 app:navigationIcon="@drawable/ic_settings"
                 app:title="@string/app_name"
                 app:titleTextColor="@android:color/white"/>
@@ -156,7 +156,12 @@
         android:paddingRight="16dp"
         android:layout_gravity="start"
         android:layout_height="match_parent">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            android:layout_marginBottom="15dp"
+            android:text="@string/settings"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

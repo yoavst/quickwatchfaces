@@ -12,9 +12,7 @@ I've just redesigned it and added a support the G4 based on [this](https://lying
 ##Download
 Download of the app is still not available, you can compile it if you want.
 
-You can find some themes [here](https://drive.google.com/folderview?id=0B9SPjhBszDMQSHgxWkc2dFBDcG8&usp=sharing) or [here](http://forum.xda-developers.com/lg-g3/themes-apps/quick-circle-watches-t2906614)
-
-Also you can find themes in the website: [qcthemer.net](https://qcthemer.net/)
+You can find some themes [here](https://qcthemer.net/) or [here](http://forum.xda-developers.com/lg-g3/themes-apps/quick-circle-watches-t2906614)
 
 ##Theme creation
 See Getting the original resources to get an Idea about the files to modify.

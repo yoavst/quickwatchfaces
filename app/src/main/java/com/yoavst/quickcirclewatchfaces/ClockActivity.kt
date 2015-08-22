@@ -3,6 +3,7 @@ package com.yoavst.quickcirclewatchfaces
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
@@ -86,6 +87,10 @@ public class ClockActivity : AppCompatActivity() {
                     startActivityForResult(intent, IMPORT_FILE_REQUEST_CODE)
                     true
                 }
+                R.id.action_download -> {
+                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://qcthemer.net/theme-gallery")))
+                    true
+                }
                 else -> false
             }
         }
@@ -118,7 +123,7 @@ public class ClockActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position == 0) Prefs.forceDateGravity = ""
                 else Prefs.forceDateGravity = gravities[position]
             }
