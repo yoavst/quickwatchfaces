@@ -20,6 +20,13 @@ You can find some themes [here](https://qcthemer.net/) or [here](http://forum.xd
 See Getting the original resources to get an Idea about the files to modify.
 Once you've got your modified files, you need to package them for the app.
 
+You need to design 4 files:
+* The background file, `background.png` (or compatible G3 resource name). 1046x1046 image
+* The hour hand file, `hour.png` (or compatible G3 resource name). 82x1052 image
+* The minute hand file, `minute.png` (or compatible G3 resource name). 82x1052 image
+* The second hand file, `second.png` (or compatible G3 resource name). 82x1052 image
+
+
 1. You need a clock.xml, here's an example:
 
 ```xml
@@ -65,8 +72,10 @@ b2_quickcircle_analog_style03_second.png
 b2_quickcircle_analog_style03_bg.png
 ```
 
+Check example folder for example.
+
 ## Version
-0.1 ALPHA
+1.0
 
 ## Acknowledgements
 * Excilys team for [Android annotations](https://github.com/excilys/androidannotations/wiki)
