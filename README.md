@@ -1,16 +1,18 @@
 #Quick Circle Watchfaces
 
 Quick Circle Watchfaces is an Android app which allows you to easily change the watchfaces of the LG G4 Quick Circle Case.
-**It is still in alpha version.**
 
-![Screenshot](http://i.imgur.com/IvA4TXMl.png)
+![Screenshot](http://i.imgur.com/VdHHiPWl.jpg)
 
 ##Credit
 All the credit goes to [BigBoot](https://github.com/BigBoot) for the [original QCThemer](https://github.com/BigBoot/qcthemer).
 I've just redesigned it and added a support the G4 based on [this](https://lyingdragonblog.wordpress.com/2015/08/06/how-to-create-quick-circle-clock-faces-using-other-apps/?preview_id=50) great guide.
 
 ##Download
-Download of the app is still not available, you can compile it if you want.
+<a href="https://play.google.com/store/apps/details?id=com.yoavst.quickcirclewatchfaces">
+  <img alt="Get it on Google Play"
+       src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
+</a>
 
 You can find some themes [here](https://qcthemer.net/) or [here](http://forum.xda-developers.com/lg-g3/themes-apps/quick-circle-watches-t2906614)
 

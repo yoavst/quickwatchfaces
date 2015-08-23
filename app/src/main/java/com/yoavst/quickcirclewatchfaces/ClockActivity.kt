@@ -124,6 +124,9 @@ public class ClockActivity : AppCompatActivity() {
             apply.hide()
             sendBroadcast(Intent(ClockService.BROADCAST_CLOCK_CHANGED))
         }
+        download.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://qcthemer.net/theme-gallery")))
+        }
         secondsSwitch.setChecked(!Prefs.forceMinute)
         secondsSwitch.setOnCheckedChangeListener { compoundButton, b ->
             Prefs.forceMinute = !b

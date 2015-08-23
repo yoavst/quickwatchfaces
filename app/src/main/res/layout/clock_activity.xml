@@ -142,8 +142,8 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/adView"
                 android:layout_alignParentRight="true"
-                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_done"
                 app:elevation="4dp"/>
 
@@ -157,17 +157,32 @@
                 app:adUnitId="@string/banner_ad_unit_id"/>
         </RelativeLayout>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/emptyLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:gravity="center"
-            android:text="@string/no_watchfaces"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:visibility="gone"/>
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center"
+                android:text="@string/no_watchfaces"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <Button
+                android:id="@+id/download"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/download"/>
+        </LinearLayout>
+
+
     </FrameLayout>
 
     <LinearLayout
