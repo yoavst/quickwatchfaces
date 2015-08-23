@@ -26,9 +26,7 @@ You need to design 4 files:
 * The minute hand file, `minute.png` (or compatible G3 resource name). 82x1052 image
 * The second hand file, `second.png` (or compatible G3 resource name). 82x1052 image
 
-
 1. You need a clock.xml, here's an example:
-
 ```xml
   <?xml version="1.0" encoding="utf-8"?>
   <clock>
