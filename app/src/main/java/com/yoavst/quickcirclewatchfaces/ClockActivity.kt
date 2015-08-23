@@ -1,17 +1,23 @@
 package com.yoavst.quickcirclewatchfaces
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.AdapterView
+import android.widget.TextView
 import com.chibatching.kotpref.Kotpref
+import com.google.android.gms.ads.AdRequest
 import com.yoavst.kotlin.*
 import kotlinx.android.synthetic.clock_activity.*
 import java.io.*
@@ -31,6 +37,8 @@ public class ClockActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.clock_activity)
+        toolbar.setTitle("")
+        toolbar.setBackgroundColor(Color.parseColor("#607D8B"))
         setSupportActionBar(toolbar)
         pager.setAdapter(ClockAdapter(this, emptyList()))
         indicator.setViewPager(pager)
@@ -91,6 +99,21 @@ public class ClockActivity : AppCompatActivity() {
                     startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://qcthemer.net/theme-gallery")))
                     true
                 }
+                R.id.action_credit -> {
+                    val textView = TextView(this)
+                    val padding = 8.toPx(this)
+                    textView.setPadding(padding, padding, padding, padding)
+                    val s = Html.fromHtml(getString(R.string.credit_text))
+                    textView.setText(s)
+                    textView.setMovementMethod(LinkMovementMethod.getInstance())
+                    AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
+                            .setTitle(R.string.credits)
+                            .setView(textView)
+                            .setPositiveButton(android.R.string.ok) { a, b -> }
+                            .show()
+
+                    true
+                }
                 else -> false
             }
         }
@@ -129,6 +152,9 @@ public class ClockActivity : AppCompatActivity() {
             }
 
         })
+
+        val adRequest = AdRequest.Builder().addKeyword("LG G4, Quick Circle, LG, Android").build()
+        adView.loadAd(adRequest)
     }
 
     fun showPageData(position: Int) {

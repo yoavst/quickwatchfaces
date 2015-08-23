@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/drawer"
     android:layout_height="match_parent">
 
     <FrameLayout
@@ -19,20 +19,34 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="104dp"
+                android:layout_height="wrap_content"
                 android:background="?android:colorPrimary"
                 android:gravity="bottom"
                 android:minHeight="?android:attr/actionBarSize"
-                app:titleMarginBottom="16dp"
                 app:navigationIcon="@drawable/ic_settings"
-                app:title="@string/app_name"
-                app:titleTextColor="@android:color/white"/>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:titleMarginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/extendedTitle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/toolbar"
+                android:background="?android:colorPrimary"
+                android:gravity="bottom"
+                android:paddingBottom="16dp"
+                android:paddingEnd="72dp"
+                android:paddingStart="56dp"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:textColor="@android:color/white"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
-                android:layout_width="1046px"
-                android:layout_height="1046px"
-                android:layout_below="@+id/toolbar"
+                android:layout_width="800px"
+                android:layout_height="800px"
+                android:layout_below="@+id/extendedTitle"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
                 tools:ignore="PxUsage"/>
@@ -69,7 +83,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/title"
-                android:layout_marginBottom="10dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/author"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -127,12 +140,21 @@
                 android:id="@+id/apply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_above="@+id/adView"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
                 android:src="@drawable/ic_done"
                 app:elevation="4dp"/>
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:adSize="BANNER"
+                app:adUnitId="@string/banner_ad_unit_id"/>
         </RelativeLayout>
 
         <TextView
@@ -150,50 +172,52 @@
 
     <LinearLayout
         android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:background="@android:color/white"
         android:orientation="vertical"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_gravity="start"
-        android:layout_height="match_parent">
+        android:paddingRight="16dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Material.Title"
             android:layout_marginBottom="15dp"
-            android:text="@string/settings"/>
+            android:text="@string/settings"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
-            android:text="@string/enable_second_support"/>
+            android:text="@string/enable_second_support"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"/>
 
         <Switch
             android:id="@+id/secondsSwitch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
-            android:text="@string/enable_date_support"/>
+            android:text="@string/enable_date_support"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"/>
 
         <Switch
             android:id="@+id/dateSwitch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
-            android:text="@string/force_watchface_date_gravity"/>
+            android:text="@string/force_watchface_date_gravity"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"/>
 
         <Spinner
             android:id="@+id/gravitySpinner"
             android:layout_width="wrap_content"
-            android:entries="@array/gravities"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:entries="@array/gravities"/>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
