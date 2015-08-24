@@ -186,11 +186,12 @@ public class ClockService : Service() {
                     var gravity = Prefs.forceDateGravity
                     if (gravity.isEmpty()) gravity = clock!!.dateGravity
                     val textViewId = getId(gravity)
+                    val forcedColor = Prefs.forcedColorForDate
                     hideAllTextViews(views)
                     views.setTextViewText(textViewId, dateFormatter!!.format(Date()))
-                    views.setTextColor(textViewId, clock!!.dateTextColor)
+                    views.setTextColor(textViewId,if (forcedColor) Prefs.forcedDateColor else clock!!.dateTextColor)
                     views.setTextViewTextSize(textViewId, TypedValue.COMPLEX_UNIT_SP, clock!!.dateTextSize)
-                    views.setInt(textViewId, "setBackgroundColor", clock!!.dateBackgroundColor)
+                    views.setInt(textViewId, "setBackgroundColor", if (forcedColor) Prefs.forcedDateBackgroundColor else clock!!.dateBackgroundColor)
                     views.setViewVisibility(textViewId, View.VISIBLE)
                 } else hideAllTextViews(views)
             } else {

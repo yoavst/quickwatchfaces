@@ -26,7 +26,7 @@ You need to design 4 files:
 * The minute hand file, `minute.png` (or compatible G3 resource name). 82x1052 image
 * The second hand file, `second.png` (or compatible G3 resource name). 82x1052 image
 
-1. You need a clock.xml, here's an example:
+First, You need a clock.xml, here's an example:
 ```xml
   <?xml version="1.0" encoding="utf-8"?>
   <clock>
@@ -59,8 +59,8 @@ You need to design 4 files:
       </replaces>
   </clock>
  ```
-2. You should optionally provide a preview.png which will be shown in the watchface chooser
-3. Now zip up all your files, in the example you would zip the following files:
+Second, You should optionally provide a preview.png which will be shown in the watchface chooser.
+Third, Now zip up all your files, in the example you would zip the following files:
 ```
 clock.xml
 preview.png
@@ -73,7 +73,7 @@ b2_quickcircle_analog_style03_bg.png
 Check example folder for example.
 
 ## Version
-1.0
+1.0.1
 
 ## Acknowledgements
 * Excilys team for [Android annotations](https://github.com/excilys/androidannotations/wiki)

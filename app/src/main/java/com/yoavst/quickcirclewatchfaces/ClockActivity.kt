@@ -17,6 +17,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
 import com.chibatching.kotpref.Kotpref
+import com.flask.colorpicker.ColorPickerView
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.android.gms.ads.AdRequest
 import com.yoavst.kotlin.*
 import kotlinx.android.synthetic.clock_activity.*
@@ -158,6 +160,47 @@ public class ClockActivity : AppCompatActivity() {
 
         val adRequest = AdRequest.Builder().addKeyword("LG G4, Quick Circle, LG, Android").build()
         adView.loadAd(adRequest)
+
+        backgroundColor.setBackgroundColor(Prefs.forcedDateBackgroundColor)
+        textColor.setBackgroundColor(Prefs.forcedDateColor)
+        changeBackgroundColor.setOnClickListener {
+            ColorPickerDialogBuilder
+                    .with(this)
+                    .setTitle(getString(R.string.choose_color))
+                    .initialColor(Prefs.forcedDateBackgroundColor)
+                    .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                    .density(12)
+                    .setPositiveButton(getString(R.string.save)) { dialog, selectedColor, allColors ->
+                        Prefs.forcedDateBackgroundColor = selectedColor
+                        backgroundColor.setBackgroundColor(selectedColor)
+                    }
+                    .setNegativeButton(getString(android.R.string.cancel)) { dialog, int ->
+
+                    }.build().show()
+        }
+        changeTextColor.setOnClickListener {
+            ColorPickerDialogBuilder
+                    .with(this)
+                    .setTitle(getString(R.string.choose_color))
+                    .initialColor(Prefs.forcedDateColor)
+                    .lightnessSliderOnly()
+                    .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                    .density(12)
+                    .setPositiveButton(getString(R.string.save)) { dialog, selectedColor, allColors ->
+                        Prefs.forcedDateColor = selectedColor
+                        textColor.setBackgroundColor(selectedColor)
+                    }
+                    .setNegativeButton(getString(android.R.string.cancel)) { dialog, int ->
+
+                    }.build().show()
+        }
+        colorSwitch.setChecked(Prefs.forcedColorForDate)
+        colorSwitch.setOnCheckedChangeListener { compoundButton, b ->
+            Prefs.forcedColorForDate = b
+            sendBroadcast(Intent(ClockService.BROADCAST_CLOCK_CHANGED))
+        }
+
+
     }
 
     fun showPageData(position: Int) {

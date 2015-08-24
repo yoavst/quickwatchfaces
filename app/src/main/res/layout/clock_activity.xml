@@ -44,12 +44,11 @@
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
-                android:layout_width="800px"
-                android:layout_height="800px"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_below="@+id/extendedTitle"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="16dp"
-                tools:ignore="PxUsage"/>
+                android:layout_marginTop="16dp"/>
 
             <com.viewpagerindicator.CirclePageIndicator
                 android:id="@+id/indicator"
@@ -176,9 +175,9 @@
 
             <Button
                 android:id="@+id/download"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/download"/>
         </LinearLayout>
 
@@ -234,5 +233,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/gravities"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/force_date_background"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"/>
+
+        <Switch
+            android:id="@+id/colorSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_color"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"/>
+
+        <View
+            android:id="@+id/textColor"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+        <Button
+            android:id="@+id/changeTextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_color"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/background_color"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"/>
+
+        <View
+            android:id="@+id/backgroundColor"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+        <Button
+            android:id="@+id/changeBackgroundColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/background_color"/>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
