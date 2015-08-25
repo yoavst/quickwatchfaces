@@ -182,7 +182,7 @@ public class ClockService : Service() {
                     dateFormatter = SimpleDateFormat(clock!!.dateFormat)
                 }
                 // set day & date
-                if (!Prefs.forceHideDate || !clock!!.hideDateText) {
+                if (!(Prefs.forceHideDate || clock!!.hideDateText)) {
                     var gravity = Prefs.forceDateGravity
                     if (gravity.isEmpty()) gravity = clock!!.dateGravity
                     val textViewId = getId(gravity)
